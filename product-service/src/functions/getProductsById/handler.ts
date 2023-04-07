@@ -1,20 +1,25 @@
 import { formatJSONResponse, formatErrorResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { getProducts } from 'src/mocks/data';
+import { productsDBClient, stocksDBClient } from 'src/helpers/dynamoDBClient';
+import { Product, Stock } from 'src/types';
 
 export const getProductsById = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
+  console.log(event);
   const { productId } = event.pathParameters;
   try {
-    const products = await getProducts();
-    const product = products.find((p) => p.id === productId);
+    const productData = (await productsDBClient.getItem({ id: productId })) as Product;
+    const stockData = (await stocksDBClient.getItem({ product_id: productId })) as Stock;
 
-    if (!product) {
+    if (!(productData && stockData)) {
       return formatErrorResponse(404, 'Product not found');
     }
 
+    const product = { ...productData, count: stockData.count };
+
     return formatJSONResponse({ product });
-  } catch {
+  } catch (e) {
+    console.log(e);
     return formatErrorResponse(500);
   }
 };

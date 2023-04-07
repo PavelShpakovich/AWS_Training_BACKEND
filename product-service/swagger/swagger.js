@@ -38,6 +38,38 @@
             }
           }
         }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post.products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "/products/{productId}": {
@@ -103,6 +135,7 @@
         }
       },
       "required": [
+        "id",
         "title",
         "description",
         "price"
@@ -131,6 +164,25 @@
       ],
       "additionalProperties": false,
       "title": "ErrorResponse",
+      "type": "object"
+    },
+    "Stock": {
+      "properties": {
+        "product_id": {
+          "title": "Stock.product_id",
+          "type": "string"
+        },
+        "count": {
+          "title": "Stock.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "product_id",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "Stock",
       "type": "object"
     }
   },

@@ -4,13 +4,13 @@ const defaultHeaders = {
   'Access-Control-Allow-Origin': '*',
 };
 
-export const formatJSONResponse = (response: Record<string, unknown>): APIGatewayProxyResult => {
+export const formatJSONResponse = (response?: Record<string, unknown>): APIGatewayProxyResult => {
   return {
-    statusCode: 200,
+    statusCode: response ? 200 : 204,
     headers: {
       ...defaultHeaders,
     },
-    body: JSON.stringify(response),
+    ...(response && { body: JSON.stringify(response) }),
   };
 };
 

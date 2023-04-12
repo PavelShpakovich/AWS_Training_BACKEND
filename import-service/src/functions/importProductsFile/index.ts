@@ -5,12 +5,18 @@ export default {
   events: [
     {
       http: {
-        method: 'post',
-        path: 'products',
+        method: 'get',
+        path: 'import',
         cors: true,
+        request: {
+          parameters: {
+            querystrings: { name: true },
+          },
+        },
         responseData: {
           200: {
             description: 'Success',
+            bodyType: 'SignedUrl',
           },
           400: {
             description: 'Validation error',

@@ -7,6 +7,14 @@ export interface Product {
 
 export type Products = Product[];
 
+export interface GetProductsByIdResponse {
+  product: Product;
+}
+
+export interface GetProductsListResponse {
+  products: Products;
+}
+
 export interface ErrorResponse {
   message: string;
 }

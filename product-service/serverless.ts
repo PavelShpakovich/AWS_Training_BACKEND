@@ -73,8 +73,8 @@ const serverlessConfiguration: AWS = {
             },
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: 5,
-            WriteCapacityUnits: 5,
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1,
           },
         },
       },
@@ -95,8 +95,8 @@ const serverlessConfiguration: AWS = {
             },
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: 5,
-            WriteCapacityUnits: 5,
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1,
           },
         },
       },

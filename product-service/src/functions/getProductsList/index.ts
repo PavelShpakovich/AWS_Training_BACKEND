@@ -11,7 +11,7 @@ export default {
         responseData: {
           200: {
             description: 'Success',
-            bodyType: 'Products',
+            bodyType: 'GetProductsListResponse',
           },
           404: {
             description: 'Not found',

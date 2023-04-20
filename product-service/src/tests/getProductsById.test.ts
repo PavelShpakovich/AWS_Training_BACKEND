@@ -1,27 +1,17 @@
 import { getProductsById } from '@functions/getProductsById/handler';
-import { getProducts } from '../mocks/data';
+import { productsDBClient, stocksDBClient } from '../helpers/dynamoDBClient';
+import { mockProductsData, mockStocksData } from './mock';
 
-jest.mock('../mocks/data');
 jest.mock('@libs/lambda');
-
-const mockData = [
-  {
-    description: 'Short Product Description1',
-    id: '7567ec4b-b10c-48c5-9345-fc73c48a80aa',
-    price: 24,
-    title: 'ProductOne',
-  },
-  {
-    description: 'Short Product Description7',
-    id: '7567ec4b-b10c-48c5-9345-fc73c48a80a1',
-    price: 15,
-    title: 'ProductTitle',
-  },
-];
 
 describe('getProductsList function', () => {
   beforeEach(() => {
-    (getProducts as jest.Mock).mockResolvedValue(mockData);
+    jest.spyOn(productsDBClient, 'getItem').mockResolvedValue(mockProductsData[0]);
+    jest.spyOn(stocksDBClient, 'getItem').mockResolvedValue(mockStocksData[0]);
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 
   it('should return 200 success response', async () => {
@@ -33,12 +23,12 @@ describe('getProductsList function', () => {
       headers: {
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({ product: mockData[0] }),
+      body: JSON.stringify({ product: { ...mockProductsData[0], count: mockStocksData[0].count } }),
     });
   });
 
   it('should return 500 if there is an error', async () => {
-    (getProducts as jest.Mock).mockRejectedValueOnce({});
+    jest.spyOn(productsDBClient, 'getItem').mockRejectedValueOnce({});
 
     const response = await getProductsById({
       pathParameters: { productId: '7567ec4b-b10c-48c5-9345-fc73c48a80aa' },
@@ -53,6 +43,8 @@ describe('getProductsList function', () => {
   });
 
   it('should return 404 if product is not found', async () => {
+    jest.spyOn(productsDBClient, 'getItem').mockResolvedValueOnce(undefined);
+
     const response = await getProductsById({
       pathParameters: { productId: 'product-id' },
     } as any);

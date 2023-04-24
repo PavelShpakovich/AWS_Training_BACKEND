@@ -22,7 +22,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Products"
+              "$ref": "#/definitions/GetProductsListResponse"
             }
           },
           "404": {
@@ -52,10 +52,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
+            "description": "Success"
           },
           "400": {
             "description": "Validation error",
@@ -95,7 +92,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Product"
+              "$ref": "#/definitions/GetProductsByIdResponse"
             }
           },
           "404": {
@@ -131,7 +128,14 @@
         },
         "price": {
           "title": "Product.price",
-          "type": "number"
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
         }
       },
       "required": [
@@ -151,6 +155,34 @@
       },
       "title": "Products.[]",
       "type": "array"
+    },
+    "GetProductsByIdResponse": {
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/Product",
+          "title": "GetProductsByIdResponse.product"
+        }
+      },
+      "required": [
+        "product"
+      ],
+      "additionalProperties": false,
+      "title": "GetProductsByIdResponse",
+      "type": "object"
+    },
+    "GetProductsListResponse": {
+      "properties": {
+        "products": {
+          "$ref": "#/definitions/Products",
+          "title": "GetProductsListResponse.products"
+        }
+      },
+      "required": [
+        "products"
+      ],
+      "additionalProperties": false,
+      "title": "GetProductsListResponse",
+      "type": "object"
     },
     "ErrorResponse": {
       "properties": {
@@ -174,7 +206,14 @@
         },
         "count": {
           "title": "Stock.count",
-          "type": "number"
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
         }
       },
       "required": [

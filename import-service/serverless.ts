@@ -21,6 +21,8 @@ const serverlessConfiguration: AWS = {
       BUCKET_NAME: '${env:BUCKET_NAME}',
       FOLDER_NAME: '${env:FOLDER_NAME}',
       PARSED_FOLDER_NAME: '${env:PARSED_FOLDER_NAME}',
+      SQS_URL: '${env:SQS_URL}',
+      SQS_ARN: '${env:SQS_ARN}',
     },
     iamRoleStatements: [
       {
@@ -32,6 +34,11 @@ const serverlessConfiguration: AWS = {
         Effect: 'Allow',
         Action: 's3:*',
         Resource: 'arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*',
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: '${self:provider.environment.SQS_ARN}',
       },
     ],
   },

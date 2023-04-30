@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   title: string;
   description: string;
-  price: number;
+  price: number | string;
 }
 
 export type Products = Product[];
@@ -21,5 +21,5 @@ export interface ErrorResponse {
 
 export interface Stock {
   product_id: string;
-  count: number;
+  count: number | string;
 }

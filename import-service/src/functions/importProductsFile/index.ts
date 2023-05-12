@@ -13,6 +13,13 @@ export default {
             querystrings: { name: true },
           },
         },
+        authorizer: {
+          arn: 'arn:aws:lambda:us-east-1:336087417252:function:authorization-service-dev-basicAuthorizer',
+          type: 'token',
+          name: 'basicAuthorizer',
+          resultTtlInSeconds: 0,
+          identitySource: 'method.request.header.Authorization',
+        },
         responseData: {
           200: {
             description: 'Success',
